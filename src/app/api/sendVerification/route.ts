@@ -1,23 +1,30 @@
-import { NextResponse } from 'next/server';
-import nodemailer from 'nodemailer';
-import crypto from 'crypto';
+import { NextResponse } from "next/server";
+import { PrismaClient } from "@prisma/client";
+import nodemailer from "nodemailer";
+import crypto from "crypto";
+
+const prisma = new PrismaClient();
 
 export async function POST(req: Request) {
   const { email } = await req.json();
 
   if (!email) {
-    return NextResponse.json({ error: 'Email is required' }, { status: 400 });
+    return NextResponse.json({ error: "Email is required" }, { status: 400 });
   }
 
-  const verificationToken = crypto.randomBytes(32).toString('hex');
+  const verificationToken = crypto.randomBytes(32).toString("hex");
+
+  await prisma.user.update({
+    where: { email },
+    data: { verificationToken },
+  });
 
   console.log(`Verification Token for ${email}: ${verificationToken}`);
 
-
   const transporter = nodemailer.createTransport({
-    service: 'Gmail',
+    service: "Gmail",
     auth: {
-      user: process.env.EMAIL_USER, 
+      user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASS, 
     },
   });
@@ -25,16 +32,16 @@ export async function POST(req: Request) {
   const mailOptions = {
     from: process.env.EMAIL_USER,
     to: email,
-    subject: 'Verify Your Email',
+    subject: "Verify Your Email",
     text: `Click the link below to verify your email:\n\n
     ${process.env.NEXT_PUBLIC_BASE_URL}/verify-email?token=${verificationToken}`,
   };
 
   try {
     await transporter.sendMail(mailOptions);
-    return NextResponse.json({ message: 'Verification email sent!' });
+    return NextResponse.json({ message: "Verification email sent!" });
   } catch (error) {
     console.error(error);
-    return NextResponse.json({ error: 'Email sending failed' }, { status: 500 });
+    return NextResponse.json({ error: "Email sending failed" }, { status: 500 });
   }
 }

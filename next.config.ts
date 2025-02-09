@@ -4,4 +4,8 @@ const nextConfig: NextConfig = {
   /* config options here */
 };
 
-export default nextConfig;
+// next.config.ts
+export default {
+  reactStrictMode: true,
+  // No need to add 'appDir' here, it's enabled by default in Next.js 13
+};

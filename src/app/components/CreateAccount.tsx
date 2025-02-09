@@ -5,8 +5,9 @@ import { useState } from 'react';
 export default function CreateAccount() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [userType, setUserType] = useState('student'); // Default to student
+  const [userType, setUserType] = useState('student'); 
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -16,18 +17,34 @@ export default function CreateAccount() {
       return;
     }
 
-    // Submit the form data (to your API or database)
-    console.log({
-      email,
-      password,
-      userType,
-    });
-
-    // Reset fields after submission
-    setEmail('');
-    setPassword('');
-    setUserType('student');
     setError('');
+    setSuccess('');
+
+    try {
+      const res = await fetch('/api/register/route', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password, userType }),
+      });
+      
+      if (!res.ok) {
+        throw new Error('Failed to create account.');
+      }
+      
+      await fetch('/api/sendVerification/route', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
+      
+
+      setSuccess('Account created! Check your email for verification.');
+      setEmail('');
+      setPassword('');
+      setUserType('student');
+    } catch (err: any) {
+      setError('Error: ' + err.message); 
+    }
   };
 
   return (
@@ -36,16 +53,30 @@ export default function CreateAccount() {
         <h2 className="text-2xl font-bold mb-4 text-center text-gray-800">Create Account</h2>
 
         {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
+        {success && <p className="text-green-500 text-sm mb-4">{success}</p>}
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className="block text-sm font-medium text-gray-700">Email</label>
-            <input type="email" className="text-gray-400 w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" placeholder="Enter your email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+            <input 
+              type="email" 
+              className="text-gray-400 w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" 
+              placeholder="Enter your email" 
+              value={email} 
+              onChange={(e) => setEmail(e.target.value)} 
+              required 
+            />
           </div>
 
           <div>
             <label className="block text-sm font-medium text-gray-700">Password</label>
-            <input type="password" className="text-gray-400 w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" placeholder="Enter your password" value={password} onChange={(e) => setPassword(e.target.value)} required
+            <input 
+              type="password" 
+              className="text-gray-400 w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" 
+              placeholder="Enter your password" 
+              value={password} 
+              onChange={(e) => setPassword(e.target.value)} 
+              required 
             />
           </div>
 
@@ -63,7 +94,6 @@ export default function CreateAccount() {
               </label>
             </div>
           </div>
-
 
           <button type="submit" className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition">
             Create Account
