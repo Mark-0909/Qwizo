@@ -15,21 +15,18 @@ export default function SignupForm() {
         action(formData);
       }}
     >
-      {/* Name Field */}
       <div>
         <label htmlFor="name">Name</label>
         <input id="name" name="name" placeholder="Name" />
       </div>
       {state?.errors?.name && <p>{state.errors.name}</p>}
 
-      {/* Email Field */}
       <div>
         <label htmlFor="email">Email</label>
         <input id="email" name="email" placeholder="Email" />
       </div>
       {state?.errors?.email && <p>{state.errors.email}</p>}
 
-      {/* Password Field */}
       <div>
         <label htmlFor="password">Password</label>
         <input id="password" name="password" type="password" />
@@ -45,7 +42,6 @@ export default function SignupForm() {
         </div>
       )}
 
-      {/* User Type Selection */}
       <div>
         <p>User Type:</p>
         <label>
@@ -70,7 +66,6 @@ export default function SignupForm() {
         </label>
       </div>
 
-      {/* Submit Button */}
       <button disabled={pending} type="submit">
         Sign Up
       </button>
