@@ -1,20 +1,29 @@
+"use client"; // Add this at the top
+
+import { useState } from "react";
+
 export default function Navbar() {
-    return (
-      <nav className="w-64 min-h-screen bg-gray-800 text-white p-4 flex flex-col gap-4 shadow-lg">
-        <h2 className="text-xl font-bold mb-4">Menu</h2>
-        <a href="#" className="py-2 px-4 rounded-md hover:bg-gray-700 transition">
-          DASHBOARD
+  const [active, setActive] = useState("DASHBOARD");
+
+  return (
+    <nav className="w-64 min-h-screen bg-gray-800 text-white flex flex-col shadow-lg">
+      <h2 className="text-xl font-bold mb-4 px-4">Menu</h2>
+
+      {["DASHBOARD", "CLASSES", "RECORDS", "QUIZZES"].map((item) => (
+        <a
+          key={item}
+          href="#"
+          onClick={() => setActive(item)}
+          className={`py-3 px-4 rounded-l-md transition w-full ${
+            active === item
+              ? "bg-gray-700 text-white"
+              : "bg-white text-black hover:bg-gray-700 hover:text-white"
+          }`}
+        >
+          {item}
         </a>
-        <a href="#" className="py-2 px-4 rounded-md hover:bg-gray-700 transition">
-          CLASSES
-        </a>
-        <a href="#" className="py-2 px-4 rounded-md hover:bg-gray-700 transition">
-          RECORDS
-        </a>
-        <a href="#" className="py-2 px-4 rounded-md hover:bg-gray-700 transition">
-          QUIZZES
-        </a>
-      </nav>
-    );
-  }
-  
+      ))}
+    </nav>
+  );
+}
+
