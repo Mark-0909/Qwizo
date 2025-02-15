@@ -5,7 +5,7 @@ export default function Dashboard() {
   const [data, setData] = useState(null);
 
   useEffect(() => {
-    const fetchData = async () => { // ✅ CORRECT: Async function inside useEffect
+    const fetchData = async () => {
       const res = await fetch("/api/data");
       const json = await res.json();
       setData(json);

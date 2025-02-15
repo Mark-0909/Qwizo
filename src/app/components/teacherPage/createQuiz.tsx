@@ -13,5 +13,9 @@ export default function CreateQuiz() {
     fetchData();
   }, []);
 
-  return <div>Create Quiz</div>;
+  return (
+    <div>
+      <h1>Create Quiz</h1>
+    </div>
+  );
 }

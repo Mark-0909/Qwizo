@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 
-export default function Classes() {
+export default function Records() {
   const [data, setData] = useState(null);
 
   useEffect(() => {
@@ -13,5 +13,5 @@ export default function Classes() {
     fetchData();
   }, []);
 
-  return <div>Classes</div>;
+  return <div>Records</div>;
 }

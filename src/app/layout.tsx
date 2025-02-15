@@ -7,6 +7,7 @@ import Dashboard  from "@/app/components/teacherPage/dashboard";
 import CreateQuiz from "@/app/components/teacherPage/createQuiz";
 import Quizzes from "@/app/components/teacherPage/quizzes";
 import Classes from "@/app/components/teacherPage/classes";
+import Records from "@/app/components/teacherPage/records";
 
 export default function Page() {
   const [activePage, setActivePage] = useState("DASHBOARD");
@@ -20,7 +21,7 @@ export default function Page() {
       case "QUIZZES":
         return <Quizzes />;
       case "RECORDS":
-        return <CreateQuiz />;
+        return <Records />;
       default:
         return <Dashboard />;
     }
