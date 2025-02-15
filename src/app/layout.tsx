@@ -19,7 +19,9 @@ export default function Page() {
       case "CLASSES":
         return <Classes />;
       case "QUIZZES":
-        return <Quizzes />;
+        return <Quizzes activePage={"QUIZZES"} onChangePage={setActivePage} />;
+      case "CREATEQUIZ":
+        return <CreateQuiz />;
       case "RECORDS":
         return <Records />;
       default:
@@ -28,14 +30,19 @@ export default function Page() {
   };
 
   return (
-    <html>
+    <html lang="en">
       <body>
-        <div className="flex min-h-screen">
-      <Navbar activePage={activePage} onChangePage={setActivePage} />
-      <div className="flex-1 p-6">{renderContent()}</div>
-    </div>
+        <div className="flex">
+          <div className="fixed h-screen w-64">
+            <Navbar activePage={activePage} onChangePage={setActivePage} />
+          </div>
+  
+          <div className="flex-1 ml-64 p-6 overflow-auto h-screen">
+            {renderContent()}
+          </div>
+        </div>
       </body>
     </html>
-    
   );
+  
 }
