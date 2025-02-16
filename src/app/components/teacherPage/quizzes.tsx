@@ -26,19 +26,20 @@ const Quizzes: React.FC<QuizzesProps> = ({ activePage, onChangePage }) => {
 
   return (
     <div>
-      <h1>Quizzes</h1>
-      {error ? (
-        <p className="text-red-500">{error}</p>
-      ) : (
-        <p>Data: {JSON.stringify(data)}</p>
-      )}
-      <button
-        key="CREATEQUIZ"
-        onClick={() => onChangePage("CREATEQUIZ")}
-        className="bg-blue-900 p-3 text-white"
-      >
-        Add quiz
-      </button>
+      <div className="flex items-center justify-between w-full">
+        <h1>Quizzes</h1>
+
+        <button
+          key="CREATEQUIZ"
+          onClick={() => onChangePage("CREATEQUIZ")}
+          className="bg-blue-900 p-3 text-white"
+        >
+          Add quiz
+        </button>
+      </div>
+      <div>
+        <hr className="m-5" />
+      </div>
     </div>
   );
 };
