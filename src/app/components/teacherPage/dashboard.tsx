@@ -13,5 +13,15 @@ export default function Dashboard() {
     fetchData();
   }, []);
 
-  return <div>Dashboard Content</div>;
+  return (
+    <div>
+      <div className="flex items-center justify-between w-full">
+        <h1 className="text-3xl font-bold">Dashboard</h1>
+
+      </div>
+      <div>
+        <hr className="m-5 border-gray-300" />
+      </div>
+    </div>
+  );
 }
